@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PostState } from '../../../types/PostsState';
 import { setLoadingAndError } from '../../../helpers/setLoadingAndError';
 import { postsApi } from '../../../api/posts';
+import { Post } from '../../../types/Post';
 
 
 const initialState: PostState = {
@@ -17,6 +18,10 @@ export const initPosts = createAsyncThunk('posts/init', () => {
 
 export const getPost = createAsyncThunk('users/findById', (id: number) => {
   return postsApi.getPost(id);
+});
+
+export const createPost = createAsyncThunk('posts/create', ({ title, body }: Omit<Post, 'id' | 'userId'>) => {
+  return postsApi.createPost({ title, body });
 });
 
 export const postsSlice = createSlice({
@@ -53,6 +58,22 @@ export const postsSlice = createSlice({
 
     builder.addCase(getPost.rejected, state => {
       const error = 'Cannot load post, please try again';
+
+      setLoadingAndError(state, false, error);
+    });
+
+    builder.addCase(createPost.pending, state => {
+      setLoadingAndError(state, true, '');
+    });
+
+    builder.addCase(createPost.fulfilled, (state, action) => {
+      setLoadingAndError(state, false, '');
+
+      state.posts.unshift(action.payload);
+    });
+
+    builder.addCase(createPost.rejected, state => {
+      const error = 'Cannot create post, please try again';
 
       setLoadingAndError(state, false, error);
     });
