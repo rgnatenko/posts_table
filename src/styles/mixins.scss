@@ -1,0 +1,197 @@
+@mixin onTablet {
+  @media (min-width: $tablet-min-width) {
+    @content;
+  }
+}
+
+@mixin onDesktop {
+  @media (min-width: $desktop-min-width) {
+    @content;
+  }
+}
+
+@mixin paddingInline {
+  padding-inline: 16px;
+
+  @include onTablet {
+    padding-inline: 24px;
+  }
+
+  @include onDesktop {
+    padding-inline: 152px;
+  }
+}
+
+@mixin hover($property, $toVAlue) {
+  transition-property: #{$property};
+  transition-duration: $effect-duration;
+
+  &:hover {
+    #{$property}: #{$toVAlue};
+  }
+}
+
+@mixin click($property, $toVAlue) {
+  transition: #{$property} $effect-duration;
+
+  &:visited {
+    #{$property}: #{$toVAlue};
+  }
+}
+
+@mixin h1 {
+  font-size: $h1-mobile;
+  font-weight: 800;
+  line-height: $lh100;
+  letter-spacing: -0.32px;
+
+  @include onTablet() {
+    font-size: $h1;
+    line-height: $lh100;
+    letter-spacing: -0.48px;
+  }
+}
+
+@mixin h2 {
+  font-size: $h2-mobile;
+  font-weight: 800;
+  line-height: $lh140;
+  letter-spacing: -0.32px;
+
+  @include onTablet() {
+    font-size: $h2;
+    line-height: $lh100;
+    letter-spacing: -0.48px;
+  }
+}
+
+@mixin h3 {
+  font-size: $h3-mobile;
+  font-weight: 800;
+  line-height: $lh100;
+  letter-spacing: -0.32px;
+
+  @include onTablet() {
+    font-size: $h3;
+    line-height: $lh140;
+    letter-spacing: -0.48px;
+  }
+}
+
+@mixin h4 {
+  font-size: $h4-mobile;
+  font-weight: 800;
+  line-height: $lh100;
+  letter-spacing: -0.32px;
+
+  @include onTablet() {
+    font-size: $h4;
+    line-height: $lh100;
+    letter-spacing: -0.48px;
+  }
+}
+
+@mixin text-body {
+  font-size: $text-body;
+  font-weight: 500;
+  line-height: $lh-body;
+}
+
+@mixin text-small {
+  font-size: $text-small;
+  font-weight: 700;
+  line-height: $lh-body;
+}
+
+@mixin text-button {
+  font-size: $text-button;
+  font-weight: 700;
+  line-height: $lh-body;
+}
+
+@mixin text-uppercase {
+  font-size: $text-uppercase;
+  font-weight: 800;
+  line-height: $lh100;
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+}
+
+@mixin text-link {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: var(--c-secondary);
+
+  &:active {
+    color: var(--c-primary);
+  }
+
+  @include hover(color, var(--c-primary));
+}
+
+@mixin grid {
+  --columns: 4;
+  display: grid;
+  justify-content: center;
+  column-gap: 16px;
+  grid-template-columns: repeat(var(--columns), 1fr);
+
+  @include onTablet {
+    --columns: 12;
+  }
+
+  @include onDesktop {
+    --columns: 24;
+
+    grid-template-columns: repeat(var(--columns), 32px);
+  }
+}
+
+@mixin button-primary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+
+  background-color: $c-accent-orange;
+
+  border: 1px solid transparent;
+  border-radius: 6px;
+
+  @include text-button;
+
+  color: $c-white;
+
+  transition-property: background-color, color, border, box-shadow, background-color;
+  transition-duration: $effect-duration;
+
+  box-shadow: 0px 3px 13px 0px transparent;
+
+  @include hover(background-color, $c-accent-orange-light);
+
+  &:active {
+    color: $c-primary-black;
+    border: 1px solid $c-elements-light-grey;
+  }
+}
+
+@mixin flex {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@mixin shadow {
+  box-shadow: 0 4px 25px 0 rgba(7, 31, 77, .08);
+}

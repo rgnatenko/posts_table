@@ -1,0 +1,83 @@
+.input-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    width: 100%;
+    @include text-body;
+    color: $c-primary-black;
+    border-bottom: 1px solid $c-elements-light-grey;
+
+    @include hover(border-bottom, 1px solid $c-secondary-grey);
+
+    &::placeholder {
+      color: $c-icons-mid-grey;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: 0;
+    bottom: 4px;
+  }
+}
+
+.dropdown {
+  @include flex;
+  padding: 12px;
+
+  border: 1px solid $c-icons-mid-grey;
+  border-radius: 6px;
+
+  @include hover(border-color, $c-secondary-grey);
+}
+
+.desktop-hidden {
+  @include onDesktop {
+    display: none;
+  }
+}
+
+.mobile-hidden {
+  display: none;
+
+  @include onDesktop {
+    display: block;
+  }
+}
+
+.header {
+  @include grid;
+  position: sticky;
+  top: 0;
+  padding-block: 30px;
+  background-color: $c-white;
+
+  margin-bottom: 24px;
+
+  @include shadow;
+
+  &__filters {
+    @include flex;
+    justify-content: space-between;
+
+    grid-column: 9/-1;
+  }
+
+  &__input-area {
+    width: 80%;
+  }
+
+  &__create-btn {
+    grid-column: span 3;
+    padding-inline: 0;
+  }
+
+  &__users {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 100%;
+  }
+}

@@ -1,0 +1,13 @@
+.user {
+  @include flex;
+  padding: 8px;
+  justify-content: center;
+
+  border: 1px solid $c-icons-mid-grey;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  @include hover(border-color, $c-accent-orange-light);
+  @include hover(color, $c-accent-orange-light);
+}

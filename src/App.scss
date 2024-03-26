@@ -1,0 +1,24 @@
+@import './styles/vars.scss';
+@import './styles/mixins.scss';
+@import './styles/reset.scss';
+
+@import './styles/icons/icon.scss';
+@import './styles/text/text.scss';
+@import './styles/button/button.scss';
+
+@import './components/PostList/PostList.scss';
+@import './components/UsersList/UsersList.scss';
+@import './components/UserItem/UserItem.scss';
+@import './components/PostItem/PostItem.scss';
+@import './components/Loader/Loader.scss';
+@import './components/Header/Header.scss';
+
+@import './pages/PostPage/PostPage.scss';
+@import './pages/PostPage/UserPost.scss';
+
+.App {
+  @include paddingInline;
+  padding-bottom: 50px;
+
+  background-color: $c-background;
+}

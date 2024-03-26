@@ -1,0 +1,27 @@
+.userPost {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  height: fit-content;
+  padding: 24px 16px;
+
+  box-shadow: 0 4px 25px 0 rgba(7, 31, 77, .08);
+  border-radius: 8px;
+  background-color: $c-white;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__body {
+    color: $c-secondary-grey;
+  }
+
+  &__name {
+    @include hover(color, $c-accent-orange);
+    cursor: pointer;
+  }
+}

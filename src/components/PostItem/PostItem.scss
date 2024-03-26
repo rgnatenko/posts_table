@@ -1,0 +1,49 @@
+.post {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 16px;
+
+  @include shadow;
+  border-radius: 8px;
+  background-color: $c-white;
+
+  &__userInfo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  &__userName {
+    @include hover(color, $c-accent-orange);
+    cursor: pointer;
+  }
+
+  &__title {
+    height: 100%;
+  }
+
+  &__bottom {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+
+    &:hover .post__icon {
+      background-image: url('./../../../public/icons/more-hover.svg');
+      transition-duration: $effect-duration;
+    }
+
+    &:hover .post__link {
+      color: $c-accent-orange-light;
+      transition-duration: $effect-duration;
+    }
+  }
+
+  &__link {
+    color: $c-accent-orange;
+    @include h4;
+  }
+}

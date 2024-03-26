@@ -1,0 +1,40 @@
+h1 {
+  @include h1;
+}
+
+h2, .h2 {
+  @include h2;
+}
+
+h3 {
+  @include h3;
+}
+
+h4 {
+  @include h4;
+}
+
+.text-body {
+  @include text-body;
+}
+
+.text-small {
+  @include text-small;
+}
+
+.text-button {
+  @include text-button;
+}
+
+.text-uppercase {
+  @include text-uppercase;
+}
+
+.text-link {
+  @include text-link;
+}
+
+.text-error {
+  @include text-small;
+  color: $c-red;
+}

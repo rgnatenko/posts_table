@@ -1,0 +1,9 @@
+.users {
+  @include flex-column;
+  max-height: 200px;
+  overflow-y: auto;
+
+  padding: 12px;
+  background-color: $c-white;
+  @include shadow;
+}

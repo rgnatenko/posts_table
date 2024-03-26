@@ -1,0 +1,36 @@
+// #device width
+$tablet-min-width: 640px;
+$desktop-min-width: 1200px;
+
+//  #colors
+$c-accent-orange: #e0a100;
+$c-accent-orange-light: #FFC83C;
+$c-red: #eb5757;
+$c-primary-black: #0f0f11;
+$c-secondary-grey: #89939a;
+$c-icons-mid-grey: #b4bdc3;
+$c-elements-light-grey: #e2e6e9;
+$c-background: #fafbfc;
+$c-white: #ffffff;
+
+// font-sizes
+$h1-mobile: 32px;
+$h2-mobile: 22px;
+$h3-mobile: 20px;
+$h4-mobile: 16px;
+
+$h1: 48px;
+$h2: 32px;
+$h3: 22px;
+$h4: 20px;
+
+$text-body: 14px;
+$text-small: 12px;
+$text-button: 14px;
+$text-uppercase: 12px;
+
+$lh140: 140%;
+$lh100: 100%;
+$lh-body: 150%;
+
+$effect-duration: 0.3s;

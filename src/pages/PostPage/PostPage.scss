@@ -1,0 +1,49 @@
+.postpage {
+  @include grid;
+  row-gap: 44px;
+
+  &__back-link {
+    grid-column: 1/-1;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: $c-primary-black;
+
+    @include hover(color, $c-accent-orange-light);
+
+    &:hover .postpage__back-icon {
+      background-image: url('./../../../public/icons/back-hover.svg');
+      transition-duration: $effect-duration;
+    }
+  }
+
+  &__userPost {
+    grid-column: span 4;
+
+    @include onTablet {
+      grid-column: span 12;
+    }
+
+    @include onDesktop {
+      grid-column: span 15;
+    }
+  }
+
+  &__userPosts {
+    grid-column: span 4;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include onTablet {
+      grid-column: span 12;
+    }
+
+    @include onDesktop {
+      grid-column: 16/-1;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 24px;
+  height: 24px;
+
+  cursor: pointer;
+
+  background-position: center;
+  background-size: cover;
+
+  &--more {
+    background-image: url('./../../../public/icons/more.svg');
+  }
+
+  &--user {
+    background-image: url('./../../../public/icons/user.svg');
+  }
+
+  &--back {
+    background-image: url('./../../../public/icons/back.svg');
+  }
+
+  &--search {
+    background-image: url('./../../../public/icons/search.svg');
+  }
+
+  &--down {
+    background-image: url('./../../../public/icons/down.svg');
+  }
+}
