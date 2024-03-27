@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
           onBlur={() => setIsOpen(false)}
         >
           Select user
-          <button className="icon icon--down" />
+          <div className="icon icon--down" />
         </button>
 
         {isOpen && <UsersList users={users}/>}

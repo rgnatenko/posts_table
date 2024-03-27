@@ -1,5 +1,13 @@
-export const normalizeTextLength = (text: string) => {
-  return text.split(' ').length > 5
-    ? text.split(' ').slice(0, 5).join(' ') + '...'
-    : text;
+export const normalizeTextLength = (
+  text: string,
+  lengthLimit: number,
+  textToAdd: string,
+) => {
+  if (text.split(' ').length > lengthLimit) {
+    return text.split(' ').slice(0, lengthLimit).join(' ') + textToAdd;
+  }
+
+  return text;
 };
+
+

@@ -1,0 +1,60 @@
+.create-form {
+  grid-column: span 4;
+
+  @include flex-column;
+  gap: 24px;
+  padding: 24px 20px;
+
+  background-color: $c-white;
+  @include shadow;
+
+  @include onDesktop {
+    grid-column: 7/19;
+  }
+
+  &__field {
+    width: 100%;
+    @include text-body;
+    color: $c-primary-black;
+    border-bottom: 1px solid $c-elements-light-grey;
+
+    @include hover(border-bottom, 1px solid $c-secondary-grey);
+
+    &::placeholder {
+      color: $c-icons-mid-grey;
+    }
+
+    &--title {
+      @include h2;
+      color: $c-primary-black;
+    }
+
+    &--body {
+      height: 200px;
+      border: none;
+
+      &:hover {
+        border: none;
+      }
+    }
+
+    &--error {
+      border-bottom: 1px solid $c-red;
+
+      &::placeholder {
+        color: $c-red;
+      }
+    }
+  }
+
+  &__create-btn {
+    @include flex;
+
+    @include button-primary;
+  }
+
+  &__error {
+    @include text-body;
+    color: $c-red;
+  }
+}

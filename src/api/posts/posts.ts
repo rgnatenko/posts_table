@@ -9,8 +9,8 @@ const createPost = ({ title, body }: Omit<Post, 'userId' | 'id'>) => {
   return client.post<Post>('posts', { title, body });
 };
 
-const updatePost = ({ title, body }: Omit<Post, 'userId' | 'id'>) => {
-  return client.put<Post>('posts', { title, body });
+const updatePost = ({ title, body, id }: Omit<Post, 'userId'>) => {
+  return client.patch<Post>(`posts/${id}`, { title, body });
 };
 
 const deletePost = (id: number) => client.delete<Post>(`posts/${id}`);

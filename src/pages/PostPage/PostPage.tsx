@@ -45,6 +45,7 @@ export const PostPage: React.FC = () => {
         <div className="icon icon--back postpage__back-icon" />
         Back to home page
       </Link>
+
       <div className="postpage__userPost userPost">
         <div className="userPost__top">
           <div className="icon icon--user" />
@@ -58,18 +59,20 @@ export const PostPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="postpage__userPosts">
-        <h4>{`See other ${user?.username}'s posts`}</h4>
+      {users.length > 0 && userPosts.length > 0 && (
+        <div className="postpage__userPosts">
+          <h4>{`See other ${user?.username}'s posts`}</h4>
 
-        {users.length > 0 && userPosts.length > 0 && (
-          postsOnThePage.map(post =>
-            <PostItem
-              key={post.id}
-              post={post}
-              user={post.user}
-            />
-          ))}
-      </div>
+          {
+            postsOnThePage.map(post =>
+              <PostItem
+                key={post.id}
+                post={post}
+                user={post.user}
+              />
+            )}
+        </div>
+      )}
     </div>
   );
 };

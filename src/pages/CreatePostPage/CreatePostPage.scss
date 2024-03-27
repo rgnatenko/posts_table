@@ -1,0 +1,7 @@
+.create-page {
+  @include grid;
+
+  &__create-form {
+    transform: translateY(30%);
+  }
+}

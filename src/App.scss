@@ -12,9 +12,11 @@
 @import './components/PostItem/PostItem.scss';
 @import './components/Loader/Loader.scss';
 @import './components/Header/Header.scss';
+@import './components/CreateForm/CreateForm.scss';
 
 @import './pages/PostPage/PostPage.scss';
 @import './pages/PostPage/UserPost.scss';
+@import './pages/CreatePostPage/CreatePostPage.scss';
 
 .App {
   @include paddingInline;

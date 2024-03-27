@@ -4,6 +4,7 @@ import { initUsers } from '../../redux/features/users';
 import { PostList } from '../../components/PostList';
 import { usePosts, usePostsOnThePage, useUsers } from '../../redux/selectors';
 import { useAppDispatch } from '../../redux/hooks';
+import { Loader } from '../../components/Loader/Loader';
 
 export const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +16,11 @@ export const HomePage: React.FC = () => {
     dispatch(initUsers());
   }, []);
 
-  const dataIsLoaded = !loading && posts.length && users.length;
+  const dataIsLoaded = !loading && posts.length > 0 && users.length > 0;
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>

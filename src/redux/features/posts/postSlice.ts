@@ -1,9 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PostState } from '../../../types/PostsState';
 import { setLoadingAndError } from '../../../helpers/setLoadingAndError';
 import { postsApi } from '../../../api/posts';
 import { Post } from '../../../types/Post';
-
+import { setDataToStorage } from '../../../helpers/setDataToStorage';
+import { postsActions } from '../../../helpers/postsActions';
+import { usePostsFromStorage } from '../../../helpers/usePostsFromStorage';
 
 const initialState: PostState = {
   posts: [],
@@ -27,7 +29,19 @@ export const createPost = createAsyncThunk('posts/create', ({ title, body }: Omi
 export const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    updatePost: (state, action: PayloadAction<Omit<Post, 'userId'>>) => {
+      const postToUpdate = action.payload;
+
+      state.posts = postsActions.updateItemInArray(state.posts, postToUpdate);
+    },
+
+    deletePost: (state, action: PayloadAction<Post>) => {
+      const postToDelete = action.payload;
+
+      state.posts = postsActions.deleteItemInArray(state.posts, postToDelete);
+    }
+  },
 
   extraReducers: (builder) => {
     builder.addCase(initPosts.pending, state => {
@@ -37,7 +51,10 @@ export const postsSlice = createSlice({
     builder.addCase(initPosts.fulfilled, (state, action) => {
       setLoadingAndError(state, false, '');
 
+      const postsFromStorage: Post[] = (JSON.parse(localStorage.getItem('posts') as string));
+
       state.posts = action.payload;
+      state.posts.unshift(...postsFromStorage);
     });
 
     builder.addCase(initPosts.rejected, state => {
@@ -69,15 +86,23 @@ export const postsSlice = createSlice({
     builder.addCase(createPost.fulfilled, (state, action) => {
       setLoadingAndError(state, false, '');
 
-      state.posts.unshift(action.payload);
+      const createdPost: Post = { ...action.payload, id: Math.random() };
+
+      state.posts.unshift(createdPost);
+
+      const postsFromStorage = usePostsFromStorage();
+      postsFromStorage.unshift(createdPost);
+      setDataToStorage('posts', postsFromStorage);
     });
 
     builder.addCase(createPost.rejected, state => {
-      const error = 'Cannot create post, please try again';
+      const error = 'Cannot load post, please try again';
 
       setLoadingAndError(state, false, error);
     });
   }
 });
+
+export const { updatePost, deletePost } = postsSlice.actions;
 
 export const postsReducer = postsSlice.reducer;

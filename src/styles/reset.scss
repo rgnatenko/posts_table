@@ -46,3 +46,14 @@ select {
 
   cursor: pointer;
 }
+
+textarea {
+  appearance: none;
+  border-color: transparent;
+  background-color: transparent;
+  resize: none;
+
+  &:focus {
+    outline: none;
+  }
+}

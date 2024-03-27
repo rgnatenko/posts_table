@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const API_URL = process.env.REACT_APP_API_URL;
 
-type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 const request = async<T>(
   url: string,
@@ -29,6 +29,6 @@ const request = async<T>(
 export const client = {
   get: <T>(url: string) => request<T>(url),
   post: <T>(url: string, data: any) => request<T>(url, 'POST', data),
-  put: <T>(url: string, data: any) => request<T>(url, 'PUT', data),
+  patch: <T>(url: string, data: any) => request<T>(url, 'PATCH', data),
   delete: <T>(url: string) => request<T>(url, 'DELETE')
 };
