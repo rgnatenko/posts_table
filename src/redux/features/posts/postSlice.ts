@@ -51,10 +51,8 @@ export const postsSlice = createSlice({
     builder.addCase(initPosts.fulfilled, (state, action) => {
       setLoadingAndError(state, false, '');
 
-      const postsFromStorage: Post[] = (JSON.parse(localStorage.getItem('posts') as string));
-
       state.posts = action.payload;
-      state.posts.unshift(...postsFromStorage);
+      state.posts.unshift(...usePostsFromStorage());
     });
 
     builder.addCase(initPosts.rejected, state => {
