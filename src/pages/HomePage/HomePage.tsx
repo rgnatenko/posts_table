@@ -8,7 +8,8 @@ import { Loader } from '../../components/Loader/Loader';
 
 export const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { posts, loading, query } = usePosts();
+
+  const { posts, postsLoading, query } = usePosts();
   const { users, selectedUser } = useUsers();
 
   useEffect(() => {
@@ -16,9 +17,9 @@ export const HomePage: React.FC = () => {
     dispatch(initUsers());
   }, []);
 
-  const dataIsLoaded = !loading && posts.length > 0 && users.length > 0;
+  const dataIsLoaded = !postsLoading && posts.length > 0 && users.length > 0;
 
-  if (loading) {
+  if (postsLoading) {
     return <Loader />;
   }
 

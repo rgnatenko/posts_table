@@ -196,3 +196,7 @@
 @mixin shadow {
   box-shadow: 0 4px 25px 0 rgba(7, 31, 77, .08);
 }
+
+@mixin transition($property) {
+  transition: #{$property} $effect-duration ease;
+}

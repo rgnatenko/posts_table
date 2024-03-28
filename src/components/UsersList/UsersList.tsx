@@ -2,6 +2,7 @@ import React from 'react';
 import { User } from '../../types/User';
 import { useAppDispatch } from '../../redux/hooks';
 import { setSelectedUser } from '../../redux/features/users';
+import { UserButton } from '../../ui/UserButton';
 
 type Props = {
   users: User[]
@@ -20,13 +21,7 @@ export const UsersList: React.FC<Props> = ({ users }) => {
       </button>
 
       {users.map(user => (
-        <button
-          key={user.name}
-          className="users__user user"
-          onClick={() => dispatch(setSelectedUser(user))}
-        >
-          {user.username}
-        </button>
+        <UserButton key={user.id} user={user} />
       ))}
     </div>
   );

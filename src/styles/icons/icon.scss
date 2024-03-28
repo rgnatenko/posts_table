@@ -41,9 +41,19 @@
 
   &--delete {
     background-image: url('./../../../public/icons/delete.svg');
+
+    &:hover {
+      background-image: url('./../../../public/icons/delete-hover.svg');
+      @include transition(background-image);
+    }
   }
 
   &--edit {
     background-image: url('./../../../public/icons/edit.svg');
+
+    &:hover {
+      background-image: url('./../../../public/icons/edit-hover.svg');
+      @include transition(background-image);
+    }
   }
 }

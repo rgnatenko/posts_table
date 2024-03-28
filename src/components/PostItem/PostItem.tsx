@@ -1,13 +1,18 @@
+//#region IMPORTS
 import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Post } from '../../types/Post';
 import { User } from '../../types/User';
 import { normalizeTextLength } from '../../helpers/normalizeTextLength';
-import { Link } from 'react-router-dom';
 import { useUsers } from '../../redux/selectors';
 import { useAppDispatch } from '../../redux/hooks';
 import { deletePost, updatePost } from '../../redux/features/posts';
 import { postsInStorage } from '../../helpers/postsInStorage';
+import { ButtonWithIcon } from '../../ui/ButtonWithIcon';
+import { UserTop } from '../../ui/UserTop';
+import { EditField } from '../../ui/EditField';
+import { ReadMore } from '../../ui/ReadMore';
+//#endregion
 
 type Props = {
   post: Post,
@@ -15,19 +20,22 @@ type Props = {
 };
 
 export const PostItem: React.FC<Props> = ({ post, user }) => {
-  const { users } = useUsers();
   const dispatch = useAppDispatch();
+  const { users } = useUsers();
 
   const userOnServer = users.find(userOnServer => userOnServer.id === user.id);
 
   const normalizedTitle = normalizeTextLength(post.title, 5, '...');
   const normalizedBody = normalizeTextLength(post.body, 10, ' ');
-  const initialBodyIsChanged = normalizedBody !== post.body;
 
   const [editingPosts, setEditingPosts] = useState<number[]>([]);
   const [newTitle, setNewTitle] = useState(post.title);
   const [newBody, setNewBody] = useState(post.body);
   const [openedBody, setOpenedBody] = useState(false);
+
+  const titleHasChanged = post.title !== newTitle;
+  const bodyHasChanged = post.body !== newBody;
+  const initialBodyIsChanged = normalizedBody !== post.body;
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const removePostFromEditing = () => editingPosts.filter(id => id !== post.id);
@@ -77,22 +85,17 @@ export const PostItem: React.FC<Props> = ({ post, user }) => {
     })}
     >
       <div className="post__top">
-        <div className="post__userInfo">
-          <div className="icon icon--user" />
-          <p className="text-body post__userName">
-            {user.username}
-          </p>
-        </div>
+        <UserTop user={user} />
 
         {!userOnServer && (
           <div className="post__icons">
-            <button
-              className="icon icon--edit"
+            <ButtonWithIcon
+              modifier="edit"
               onClick={() => setEditingPosts([...editingPosts, post.id])}
             />
 
-            <button
-              className="icon icon--delete"
+            <ButtonWithIcon
+              modifier="delete"
               onClick={handleDelete}
             />
           </div>
@@ -107,23 +110,24 @@ export const PostItem: React.FC<Props> = ({ post, user }) => {
 
       {postIsBeingEdited && (
         <>
-          <input
-            type="text"
-            ref={inputRef}
-            className="post__input-title"
+          <EditField
+            inputRef={inputRef}
+            fieldType="title"
             value={newTitle}
             onChange={e => setNewTitle(e.target.value)}
           />
 
-          <textarea
-            className="post__input-body"
+          <EditField
+            fieldType="body"
             value={newBody}
             onChange={e => setNewBody(e.target.value)}
           />
 
           <div className="post__buttons">
             <button
-              className="post__btn post__btn--save"
+              className={cn('post__btn', {
+                'post__btn--disabled': !bodyHasChanged && !titleHasChanged
+              })}
               onClick={handleUpdate}
             >
               Save
@@ -151,15 +155,7 @@ export const PostItem: React.FC<Props> = ({ post, user }) => {
         </p>
       }
 
-      {userOnServer && (
-        <Link
-          to={`/${post.id}?user=${user.id}`}
-          className="post__bottom"
-        >
-          <h4 className="post__link">Read more</h4>
-          <div className="icon icon--more post__icon" />
-        </Link>
-      )}
+      {userOnServer && <ReadMore post={post} user={user}/> }
     </div>
   );
 };

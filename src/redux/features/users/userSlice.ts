@@ -1,6 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UsersState } from '../../../types/UsersState';
-import { setLoadingAndError } from '../../../helpers/setLoadingAndError';
 import { usersApi } from '../../../api/users';
 import { User } from '../../../types/User';
 
@@ -8,7 +7,7 @@ const initialState: UsersState = {
   users: [],
   userPosts: [],
   user: null,
-  loading: false,
+  usersLoading: false,
   error: '',
   selectedUser: null
 };
@@ -35,53 +34,67 @@ export const userSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(initUsers.pending, state => {
-      setLoadingAndError(state, true, '');
+    const setLoadingAndError = (
+      state: UsersState,
+      stateLoading: boolean,
+      stateError: string
+    ) => {
+      state.usersLoading = stateLoading;
+      state.error = stateError;
+    };
+
+    const onPending = (state: UsersState) => setLoadingAndError(state, true, '');
+    const onFulfilled = (state: UsersState) => setLoadingAndError(state, false, '');
+    const onRejected = (state: UsersState, error: string) => setLoadingAndError(state, false, error);
+
+    builder.addCase(initUsers.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(initUsers.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
 
       state.users = action.payload;
     });
 
-    builder.addCase(initUsers.rejected, state => {
+    builder.addCase(initUsers.rejected, (state) => {
       const error = 'Cannot load user';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
 
-    builder.addCase(getUserPosts.pending, state => {
-      setLoadingAndError(state, true, '');
+    builder.addCase(getUserPosts.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(getUserPosts.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
 
       state.userPosts = action.payload;
     });
 
-    builder.addCase(getUserPosts.rejected, state => {
+    builder.addCase(getUserPosts.rejected, (state) => {
       const error = 'Cannot load user posts';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
 
-    builder.addCase(getUser.pending, state => {
-      setLoadingAndError(state, true, '');
+    builder.addCase(getUser.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(getUser.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
+
       const user = action.payload;
 
       state.user = user;
     });
 
-    builder.addCase(getUser.rejected, state => {
+    builder.addCase(getUser.rejected, (state) => {
       const error = 'Cannot find user';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
   }
 });

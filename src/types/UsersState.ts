@@ -5,7 +5,7 @@ export interface UsersState {
   users: User[],
   userPosts: Post[],
   user: User | null,
-  loading: boolean,
+  usersLoading: boolean,
   error: string,
   selectedUser: User | null,
 }

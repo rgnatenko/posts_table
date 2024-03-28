@@ -2,6 +2,17 @@
   @include grid;
 
   &__create-form {
-    transform: translateY(30%);
+    grid-column: span 4;
+
+    transform: translateY(20%);
+
+    @include onTablet {
+      grid-column: span 12;
+    }
+
+    @include onDesktop {
+      grid-column: 7/19;
+      transform: translateY(20);
+    }
   }
 }

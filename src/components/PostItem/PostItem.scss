@@ -43,7 +43,7 @@
 
     &:hover .post__icon {
       background-image: url('./../../../public/icons/more-hover.svg');
-      transition-duration: $effect-duration;
+      @include transition(background-image);
     }
 
     &:hover .post__link {
@@ -115,6 +115,11 @@
 
     &--cancel {
       background-color: $c-accent-orange-light;
+    }
+
+    &--disabled {
+      background-color: $c-elements-light-grey;
+      pointer-events: none;
     }
   }
 }

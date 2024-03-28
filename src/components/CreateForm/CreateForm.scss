@@ -1,16 +1,10 @@
 .create-form {
-  grid-column: span 4;
-
   @include flex-column;
   gap: 24px;
   padding: 24px 20px;
 
   background-color: $c-white;
   @include shadow;
-
-  @include onDesktop {
-    grid-column: 7/19;
-  }
 
   &__field {
     width: 100%;

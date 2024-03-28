@@ -1,6 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PostState } from '../../../types/PostsState';
-import { setLoadingAndError } from '../../../helpers/setLoadingAndError';
 import { postsApi } from '../../../api/posts';
 import { Post } from '../../../types/Post';
 import { setDataToStorage } from '../../../helpers/setDataToStorage';
@@ -10,7 +9,7 @@ import { usePostsFromStorage } from '../../../helpers/usePostsFromStorage';
 const initialState: PostState = {
   posts: [],
   selectedPost: null,
-  loading: false,
+  postsLoading: false,
   error: '',
   query: ''
 };
@@ -49,45 +48,58 @@ export const postsSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(initPosts.pending, state => {
-      setLoadingAndError(state, true, '');
+    const setLoadingAndError = (
+      state: PostState,
+      stateLoading: boolean,
+      stateError: string
+    ) => {
+      state.postsLoading = stateLoading;
+      state.error = stateError;
+    };
+
+    const onPending = (state: PostState, ) => setLoadingAndError(state, true, '');
+    const onFulfilled = (state: PostState, ) => setLoadingAndError(state, false, '');
+    const onRejected = (state: PostState, error: string) => setLoadingAndError(state, false, error);
+
+    builder.addCase(initPosts.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(initPosts.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
 
       state.posts = action.payload;
       state.posts.unshift(...usePostsFromStorage());
     });
 
-    builder.addCase(initPosts.rejected, state => {
+    builder.addCase(initPosts.rejected, (state) => {
       const error = 'Cannot load posts, please try again';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
 
-    builder.addCase(getPost.pending, state => {
-      setLoadingAndError(state, true, '');
+    builder.addCase(getPost.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(getPost.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
 
       state.selectedPost = action.payload;
     });
 
-    builder.addCase(getPost.rejected, state => {
+    builder.addCase(getPost.rejected, (state) => {
       const error = 'Cannot load post, please try again';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
 
-    builder.addCase(createPost.pending, state => {
-      setLoadingAndError(state, true, '');
+    builder.addCase(createPost.pending, (state) => {
+      onPending(state);
     });
 
     builder.addCase(createPost.fulfilled, (state, action) => {
-      setLoadingAndError(state, false, '');
+      onFulfilled(state);
 
       const createdPost: Post = { ...action.payload, id: Math.random() };
 
@@ -98,10 +110,10 @@ export const postsSlice = createSlice({
       setDataToStorage('posts', postsFromStorage);
     });
 
-    builder.addCase(createPost.rejected, state => {
+    builder.addCase(createPost.rejected, (state) => {
       const error = 'Cannot load post, please try again';
 
-      setLoadingAndError(state, false, error);
+      onRejected(state, error);
     });
   }
 });
