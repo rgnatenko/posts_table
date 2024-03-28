@@ -8,12 +8,16 @@ export const useUsers = () => useAppSelector(state => state.users);
 
 type PostArgs = {
   posts: Post[],
-  users: User[]
+  users: User[],
+  selectedUser: User | null,
+  query: string
 }
 
-export const usePostsOnThePage = ({ posts, users }: PostArgs) => {
+export const usePostsOnThePage = ({ posts, users, selectedUser, query }: PostArgs) => {
   return preparePosts({
     posts,
-    users
+    users,
+    selectedUser,
+    query
   });
 };

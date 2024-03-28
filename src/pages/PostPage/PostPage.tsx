@@ -23,13 +23,15 @@ export const PostPage: React.FC = () => {
     dispatch(initUsers());
   }, [idToSet, userId]);
 
-  const { selectedPost } = usePosts();
+  const { selectedPost, query } = usePosts();
   const postsLoading = usePosts().loading;
-  const { user, users, userPosts, loading } = useUsers();
+  const { user, users, userPosts, loading, selectedUser } = useUsers();
 
   const postsOnThePage = usePostsOnThePage({
     users,
-    posts: userPosts
+    posts: userPosts,
+    selectedUser,
+    query
   });
 
   if (loading || postsLoading) {

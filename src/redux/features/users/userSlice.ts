@@ -1,14 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UsersState } from '../../../types/UsersState';
 import { setLoadingAndError } from '../../../helpers/setLoadingAndError';
 import { usersApi } from '../../../api/users';
+import { User } from '../../../types/User';
 
 const initialState: UsersState = {
   users: [],
   userPosts: [],
   user: null,
   loading: false,
-  error: ''
+  error: '',
+  selectedUser: null
 };
 
 export const initUsers = createAsyncThunk('users/init', () => {
@@ -26,7 +28,11 @@ export const getUser = createAsyncThunk('users/getUser', (userId: number) => {
 export const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedUser: (state, action: PayloadAction<User | null>) => {
+      state.selectedUser = action.payload;
+    }
+  },
 
   extraReducers: (builder) => {
     builder.addCase(initUsers.pending, state => {
@@ -79,5 +85,7 @@ export const userSlice = createSlice({
     });
   }
 });
+
+export const { setSelectedUser } = userSlice.actions;
 
 export const usersReducer = userSlice.reducer;

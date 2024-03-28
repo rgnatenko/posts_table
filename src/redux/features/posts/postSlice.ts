@@ -11,7 +11,8 @@ const initialState: PostState = {
   posts: [],
   selectedPost: null,
   loading: false,
-  error: ''
+  error: '',
+  query: ''
 };
 
 export const initPosts = createAsyncThunk('posts/init', () => {
@@ -40,7 +41,11 @@ export const postsSlice = createSlice({
       const postToDelete = action.payload;
 
       state.posts = postsActions.deleteItemInArray(state.posts, postToDelete);
-    }
+    },
+
+    setQuery: (state, action: PayloadAction<string>) => {
+      state.query = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -101,6 +106,6 @@ export const postsSlice = createSlice({
   }
 });
 
-export const { updatePost, deletePost } = postsSlice.actions;
+export const { updatePost, deletePost, setQuery } = postsSlice.actions;
 
 export const postsReducer = postsSlice.reducer;

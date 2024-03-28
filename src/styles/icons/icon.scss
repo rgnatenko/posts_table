@@ -29,6 +29,14 @@
 
   &--down {
     background-image: url('./../../../public/icons/down.svg');
+
+    transition: background-image $effect-duration ease;
+  }
+
+  &--up {
+    background-image: url('./../../../public/icons/up.svg');
+
+    transition: background-image $effect-duration ease;
   }
 
   &--delete {

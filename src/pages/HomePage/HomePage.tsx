@@ -8,8 +8,8 @@ import { Loader } from '../../components/Loader/Loader';
 
 export const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { posts, loading } = usePosts();
-  const { users } = useUsers();
+  const { posts, loading, query } = usePosts();
+  const { users, selectedUser } = useUsers();
 
   useEffect(() => {
     dispatch(initPosts());
@@ -27,7 +27,9 @@ export const HomePage: React.FC = () => {
       {dataIsLoaded && (
         <PostList posts={usePostsOnThePage({
           posts,
-          users
+          users,
+          selectedUser,
+          query
         })}
         />
       )}

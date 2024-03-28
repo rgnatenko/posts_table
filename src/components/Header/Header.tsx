@@ -4,6 +4,8 @@ import { useUsers } from '../../redux/selectors';
 import { useAppDispatch } from '../../redux/hooks';
 import { initUsers } from '../../redux/features/users';
 import { UsersList } from '../UsersList';
+import { setQuery } from '../../redux/features/posts';
+import classNames from 'classnames';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +16,7 @@ export const Header: React.FC = () => {
   }, []);
 
   const { users } = useUsers();
+  const { selectedUser } = useUsers();
 
   return (
     <div className="header">
@@ -22,28 +25,31 @@ export const Header: React.FC = () => {
       </Link>
 
       <div className="header__filters">
-        <div className="icon icon--search desktop-hidden" />
-
-        <div className="header__input-area input-area mobile-hidden">
+        <div className="header__input-area input-area">
           <div className="icon icon--search input-area__icon" />
 
           <input
             type="text"
             className="input-area__input"
             placeholder="Search posts"
+            onChange={e => dispatch(setQuery(e.target.value))}
           />
         </div>
 
         <button
           className="header__dropdown dropdown"
           onClick={() => setIsOpen(!isOpen)}
-          onBlur={() => setIsOpen(false)}
         >
-          Select user
-          <div className="icon icon--down" />
+          {selectedUser ? selectedUser.username : 'Select User'}
+
+          <div className={classNames('icon', {
+            'icon--down': !isOpen,
+            'icon--up': isOpen
+          })}
+          />
         </button>
 
-        {isOpen && <UsersList users={users}/>}
+        {isOpen && <UsersList users={users} />}
       </div>
     </div>
   );

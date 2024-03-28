@@ -7,4 +7,5 @@ export interface UsersState {
   user: User | null,
   loading: boolean,
   error: string,
+  selectedUser: User | null,
 }
