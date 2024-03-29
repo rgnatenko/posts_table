@@ -17,7 +17,16 @@ const updatePost = (post: Post) => {
   setDataToStorage('posts', postsToSet);
 };
 
+const createPost = (post: Post) => {
+  const postsFromStorage = usePostsFromStorage();
+
+  postsFromStorage.unshift(post);
+
+  setDataToStorage('posts', postsFromStorage);
+};
+
 export const postsInStorage = {
   deletePost,
   updatePost,
+  createPost
 };

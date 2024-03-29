@@ -2,9 +2,9 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { PostState } from '../../../types/PostsState';
 import { postsApi } from '../../../api/posts';
 import { Post } from '../../../types/Post';
-import { setDataToStorage } from '../../../helpers/setDataToStorage';
 import { postsActions } from '../../../helpers/postsActions';
 import { usePostsFromStorage } from '../../../helpers/usePostsFromStorage';
+import { postsInStorage } from '../../../helpers/postsInStorage';
 
 const initialState: PostState = {
   posts: [],
@@ -22,8 +22,11 @@ export const getPost = createAsyncThunk('users/findById', (id: number) => {
   return postsApi.getPost(id);
 });
 
-export const createPost = createAsyncThunk('posts/create', ({ title, body }: Omit<Post, 'id' | 'userId'>) => {
-  return postsApi.createPost({ title, body });
+export const createPost = createAsyncThunk('posts/create', async ({ title, body }: Omit<Post, 'id' | 'userId'>) => {
+  const createdPost = await postsApi.createPost({ title, body });
+  postsInStorage.createPost(createdPost);
+
+  return createdPost;
 });
 
 export const postsSlice = createSlice({
@@ -44,7 +47,7 @@ export const postsSlice = createSlice({
 
     setQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
-    },
+    }
   },
 
   extraReducers: (builder) => {
@@ -57,8 +60,8 @@ export const postsSlice = createSlice({
       state.error = stateError;
     };
 
-    const onPending = (state: PostState, ) => setLoadingAndError(state, true, '');
-    const onFulfilled = (state: PostState, ) => setLoadingAndError(state, false, '');
+    const onPending = (state: PostState,) => setLoadingAndError(state, true, '');
+    const onFulfilled = (state: PostState,) => setLoadingAndError(state, false, '');
     const onRejected = (state: PostState, error: string) => setLoadingAndError(state, false, error);
 
     builder.addCase(initPosts.pending, (state) => {
@@ -104,10 +107,6 @@ export const postsSlice = createSlice({
       const createdPost: Post = { ...action.payload, id: Math.random() };
 
       state.posts.unshift(createdPost);
-
-      const postsFromStorage = usePostsFromStorage();
-      postsFromStorage.unshift(createdPost);
-      setDataToStorage('posts', postsFromStorage);
     });
 
     builder.addCase(createPost.rejected, (state) => {
